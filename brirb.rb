@@ -21,11 +21,12 @@ EventMachine.run do
         response << stdout << "=> #{_.inspect}"
         cmd = ""
       rescue Exception => e
-        unless e.class == SyntaxError
+        puts "#{e.class} : #{e.to_s}"
+        if e.class == SyntaxError and /unexpected \$end/.match(e.to_s).nil? == false
+          response = ""
+        else
           response << e.to_s << " (" << e.class.to_s << ") \n" << e.backtrace.map { |l| "\t#{l}" }.join("\n")
           cmd = ""
-        else
-          response = ""
         end
       end  
       ws.send EscapeUtils.escape_html(response).gsub("\n", "<br>").gsub("\t", "    ").gsub(" ", "&nbsp;")
