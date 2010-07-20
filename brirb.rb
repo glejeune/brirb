@@ -23,6 +23,7 @@ EventMachine.run do
       rescue Exception => e
         unless e.class == SyntaxError
           response << e.to_s << " (" << e.class.to_s << ") \n" << e.backtrace.map { |l| "\t#{l}" }.join("\n")
+          cmd = ""
         else
           response = ""
         end
